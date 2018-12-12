@@ -23,7 +23,7 @@
             contentType: file.type
         });
         action.setCallback(this, function(a) {
-            component.set("v.renderNew", true);
+            component.set("v.renderDelete", true);
         });
         $A.enqueueAction(action); 
     },
@@ -34,7 +34,7 @@
             parentId: component.get("v.recordId"),
         });
         action.setCallback(this, function(a) {
-            component.set("v.renderNew", false);
+            component.set("v.renderDelete", false);
             component.set("v.image", "https://i.imgur.com/1RM15yn.jpg");
         });
         $A.enqueueAction(action); 

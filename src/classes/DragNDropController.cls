@@ -1,11 +1,12 @@
-public with sharing class DragNDropController {
-
 /**
-* DragNDropController
-* Performs DML operations to upload, show and delete images inside the Component Document 
-* @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
-* @since (2018-12)
-*/
+ * DragNDropController
+ * Performs DML operations to upload, show and delete images inside the Component Document 
+ *
+ * @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
+ * @since 2018-12
+ */
+
+public with sharing class DragNDropController {
 
   	@AuraEnabled
 	public static ContentVersion getProfilePicture(Id parentId){
@@ -56,11 +57,16 @@ public with sharing class DragNDropController {
 
         if(contentDocumentId == null){            
             //Create ContentDocumentLink
-            ContentDocumentLink newLink = new ContentDocumentLink();
-            newLink.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
-            newLink.LinkedEntityId = parentId;
-            newLink.ShareType = 'V';
-            insert newLink;
+            try{
+                ContentDocumentLink newLink = new ContentDocumentLink();
+                newLink.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
+                newLink.LinkedEntityId = parentId;
+                newLink.ShareType = 'V';
+                insert newLink;
+            }catch(DmlException e) {
+                System.debug('The following exception has occurred: ' + e.getMessage());
+                insertMsg = e.getMessage();
+            }
         }
 
         return insertMsg;

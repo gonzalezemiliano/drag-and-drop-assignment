@@ -1,5 +1,5 @@
 @isTest
-private class DragNDropController_Test {
+private class DragNDropControllerTest {
 	
 	@isTest static void testSaveTheFile() {
 		
