@@ -5,12 +5,11 @@
  * @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
  * @since 2018-12
  */
-
 public with sharing class DragNDropController {
 
   	@AuraEnabled
 	public static ContentVersion getProfilePicture(Id parentId){
-		
+        
         Id contentDocumentId = null;
 
         List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId 

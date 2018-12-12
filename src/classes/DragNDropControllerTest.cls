@@ -1,8 +1,15 @@
+/**
+ * DragNDropControllerTest
+ * Test DML operations for each method of the Apex class
+ *
+ * @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
+ * @since 2018-12
+ */
 @isTest
 private class DragNDropControllerTest {
 	
 	@isTest static void testSaveTheFile() {
-		
+        
 		// Test INSERT
 		Id parentId =  'a011U000004LcCvQAK';
 		String fileName = 'example.jpg';
