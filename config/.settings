@@ -1,0 +1,17 @@
+{
+    "projectName": "drag-and-drop-assignment",
+    "username": "emiliano@modelit.xyz",
+    "id": "1a7b2ee0-f89b-11e8-842d-0f93fb64f5a1",
+    "namespace": "",
+    "orgType": "developer",
+    "loginUrl": "https://login.salesforce.com/",
+    "instanceUrl": "https://gonzalez-emiliano-dev-ed.my.salesforce.com",
+    "workspace": "C:\\Users\\Emiliano Gonzalez\\Documents",
+    "subscription": [
+        "ApexClass",
+        "ApexComponent",
+        "ApexPage",
+        "ApexTrigger",
+        "StaticResource"
+    ]
+}
