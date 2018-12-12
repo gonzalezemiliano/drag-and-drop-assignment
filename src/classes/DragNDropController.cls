@@ -26,22 +26,26 @@ public with sharing class DragNDropController {
     public static String saveTheFile(Id parentId, String fileName, String base64Data, String contentType) { 
                 
         Id contentDocumentId = null;
-
+        String insertMsg = 'Inserted';
         List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId FROM ContentDocumentLink 
                                         WHERE LinkedEntityId = :parentId LIMIT 1];
         if (!cdl.isEmpty()) {
             contentDocumentId=cdl[0].contentDocumentId;
         }
 
-
-        ContentVersion cv = new ContentVersion();
-        cv.ContentLocation = 'S';
-        cv.ContentDocumentId = contentDocumentId;
-        cv.VersionData = EncodingUtil.base64Decode(base64Data);
-        cv.Title = fileName;
-        cv.PathOnClient = filename;
-        
-        insert cv;
+        try{
+	        ContentVersion cv = new ContentVersion();
+	        cv.ContentLocation = 'S';
+	        cv.ContentDocumentId = contentDocumentId;
+	        cv.VersionData = EncodingUtil.base64Decode(base64Data);
+	        cv.Title = fileName;
+	        cv.PathOnClient = filename;
+	        
+	        insert cv;
+	    }catch(DmlException e) {
+            System.debug('The following exception has occurred: ' + e.getMessage());
+            insertMsg = e.getMessage();
+        }
 
         if(contentDocumentId == null){            
             //Create ContentDocumentLink
@@ -52,12 +56,13 @@ public with sharing class DragNDropController {
             insert newLink;
         }
 
-        return 'Inserted';
+        return insertMsg;
     }
 
     @AuraEnabled
     public static String deleteTheFile(Id parentId){
     	
+    	String deleteMsg = 'Deleted';
     	List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId FROM ContentDocumentLink 
                                         WHERE LinkedEntityId = :parentId];
         List<ContentDocument> cd = [SELECT Id FROM ContentDocument 
@@ -67,9 +72,10 @@ public with sharing class DragNDropController {
             delete cd;
         }catch(DmlException e) {
             System.debug('The following exception has occurred: ' + e.getMessage());
+            deleteMsg = e.getMessage();
         }
 
-        return 'Delete';
+        return deleteMsg;
     }
 
 }
