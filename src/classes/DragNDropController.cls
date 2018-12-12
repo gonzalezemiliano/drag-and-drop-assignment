@@ -1,5 +1,10 @@
 public with sharing class DragNDropController {
-      
+
+/**
+* @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
+* @since (2018-12)
+*/
+
   	@AuraEnabled
 	public static ContentVersion getProfilePicture(Id parentId){
 		
