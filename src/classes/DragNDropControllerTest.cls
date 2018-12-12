@@ -27,8 +27,9 @@ private class DragNDropControllerTest {
 		insert contentVersionInsert;
 
 		ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
-		contentDocumentInsert.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion 
-						           WHERE Id =: contentVersionInsert.Id].ContentDocumentId;
+		contentDocumentInsert.ContentDocumentId = [SELECT Id, ContentDocumentId 
+												  FROM ContentVersion 
+						           				  WHERE Id =: contentVersionInsert.Id].ContentDocumentId;
 		contentDocumentInsert.LinkedEntityId = parentId;
 		contentDocumentInsert.ShareType = 'V';
 		insert contentDocumentInsert;
@@ -52,8 +53,9 @@ private class DragNDropControllerTest {
 		insert contentVersionInsert;
 
 		ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
-		contentDocumentInsert.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion 
-							   WHERE Id =: contentVersionInsert.Id].ContentDocumentId;
+		contentDocumentInsert.ContentDocumentId = [SELECT Id, ContentDocumentId 
+                                                   FROM ContentVersion 
+							                       WHERE Id =: contentVersionInsert.Id].ContentDocumentId;
 		contentDocumentInsert.LinkedEntityId = parentId;
 		contentDocumentInsert.ShareType = 'V';
 		insert contentDocumentInsert;

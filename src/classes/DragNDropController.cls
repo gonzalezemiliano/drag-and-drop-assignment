@@ -13,7 +13,8 @@ public with sharing class DragNDropController {
 		
         Id contentDocumentId = null;
 
-        List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId FROM ContentDocumentLink 
+        List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId 
+                                        FROM ContentDocumentLink 
                                         WHERE LinkedEntityId = :parentId LIMIT 1];
         if (!cdl.isEmpty()) {
             contentDocumentId=cdl[0].contentDocumentId;
@@ -35,7 +36,8 @@ public with sharing class DragNDropController {
                 
         Id contentDocumentId = null;
         String insertMsg = 'Inserted';
-        List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId FROM ContentDocumentLink 
+        List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId 
+                                        FROM ContentDocumentLink 
                                         WHERE LinkedEntityId = :parentId LIMIT 1];
         if (!cdl.isEmpty()) {
             contentDocumentId=cdl[0].contentDocumentId;
@@ -59,7 +61,9 @@ public with sharing class DragNDropController {
             //Create ContentDocumentLink
             try{
                 ContentDocumentLink newLink = new ContentDocumentLink();
-                newLink.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
+                newLink.ContentDocumentId = [SELECT Id, ContentDocumentId 
+                                            FROM ContentVersion 
+                                            WHERE Id =: cv.Id].ContentDocumentId;
                 newLink.LinkedEntityId = parentId;
                 newLink.ShareType = 'V';
                 insert newLink;
@@ -76,10 +80,12 @@ public with sharing class DragNDropController {
     public static String deleteTheFile(Id parentId){
     	
     	String deleteMsg = 'Deleted';
-    	List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId FROM ContentDocumentLink 
+    	List<ContentDocumentLink> cdl = [SELECT Id, ContentDocumentId 
+                                        FROM ContentDocumentLink 
                                         WHERE LinkedEntityId = :parentId];
-        List<ContentDocument> cd = [SELECT Id FROM ContentDocument 
-                                   WHERE Id =:cdl[0].ContentDocumentId];
+        List<ContentDocument> cd = [SELECT Id 
+                                    FROM ContentDocument 
+                                    WHERE Id =:cdl[0].ContentDocumentId];
         try{
             delete cdl;
             delete cd;
