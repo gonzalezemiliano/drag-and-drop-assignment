@@ -1,6 +1,8 @@
 public with sharing class DragNDropController {
 
 /**
+* DragNDropController
+* Performs DML operations to upload, show and delete images inside the Component Document 
 * @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
 * @since (2018-12)
 */
