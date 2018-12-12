@@ -28,7 +28,7 @@ private class DragNDropController_Test {
 
 		ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
 		contentDocumentInsert.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion 
-												   WHERE Id =: contentVersionInsert.Id].ContentDocumentId;
+						           WHERE Id =: contentVersionInsert.Id].ContentDocumentId;
 		contentDocumentInsert.LinkedEntityId = parentId;
 		contentDocumentInsert.ShareType = 'V';
 		insert contentDocumentInsert;
