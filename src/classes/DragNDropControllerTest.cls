@@ -15,11 +15,17 @@ private class DragNDropControllerTest {
 		String fileName = 'example.jpg';
 		String base64Data = 'Hello World';
 		String contentType = 'image/jpeg';
-		String testing = '';
 		Test.startTest();
-			testing = DragNDropController.saveTheFile(parentId, fileName, base64Data, contentType);
+                DragNDropController.saveTheFile(parentId, fileName, base64Data, contentType);
 		Test.stopTest();
-		System.assertEquals('Inserted', testing, 'Image inserted');
+
+		List<ContentDocumentLink> cdl = [
+                SELECT Id, ContentDocumentId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :parentId 
+                ];
+
+		System.assert(cdl.size()>0);
 	}
 
 	@isTest static void testGetProfilePicture() {
@@ -34,9 +40,13 @@ private class DragNDropControllerTest {
 		insert contentVersionInsert;
 
 		ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
-		contentDocumentInsert.ContentDocumentId = [SELECT Id, ContentDocumentId 
-												  FROM ContentVersion 
-						           				  WHERE Id =: contentVersionInsert.Id].ContentDocumentId;
+
+		contentDocumentInsert.ContentDocumentId = [
+            SELECT Id, ContentDocumentId 
+            FROM ContentVersion 
+            WHERE Id =: contentVersionInsert.Id
+            ].ContentDocumentId;
+
 		contentDocumentInsert.LinkedEntityId = parentId;
 		contentDocumentInsert.ShareType = 'V';
 		insert contentDocumentInsert;
@@ -51,7 +61,6 @@ private class DragNDropControllerTest {
 		
 		// Test DELETE
 		Id parentId =  'a011U000004LcCvQAK';
-		String testing = '';
 		ContentVersion contentVersionInsert = new ContentVersion();
 		contentVersionInsert.ContentDocumentId = null;
 		contentVersionInsert.VersionData = EncodingUtil.base64Decode('Test');
@@ -60,16 +69,27 @@ private class DragNDropControllerTest {
 		insert contentVersionInsert;
 
 		ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
-		contentDocumentInsert.ContentDocumentId = [SELECT Id, ContentDocumentId 
-                                                   FROM ContentVersion 
-							                       WHERE Id =: contentVersionInsert.Id].ContentDocumentId;
+
+		contentDocumentInsert.ContentDocumentId = [
+			SELECT Id, ContentDocumentId 
+			FROM ContentVersion 
+			WHERE Id =: contentVersionInsert.Id
+			].ContentDocumentId;
+
 		contentDocumentInsert.LinkedEntityId = parentId;
 		contentDocumentInsert.ShareType = 'V';
 		insert contentDocumentInsert;
 
 		Test.startTest();
-			testing = DragNDropController.deleteTheFile(parentId);
+			DragNDropController.deleteTheFile(parentId);
 		Test.stopTest();
-		System.assertEquals('Deleted', testing, 'Image deleted');
+
+		List<ContentDocumentLink> cdl = [
+                SELECT Id, ContentDocumentId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :parentId 
+                ];
+
+		System.assert(cdl.size() == 0);
 	}
 }
