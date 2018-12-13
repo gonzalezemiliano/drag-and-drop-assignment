@@ -7,6 +7,17 @@
  */
 public with sharing class DragNDropController {
 
+    // Wrapper class for my custom exception data
+    public class CustomExceptionData {
+        public String name;
+        public String message;
+
+        public CustomExceptionData(String name, String message) {
+            this.name = name;
+            this.message = message;
+        }
+    }
+
     @AuraEnabled
     public static ContentVersion getProfilePicture(Id parentId) {
         ContentVersion contentVersion;
@@ -29,7 +40,9 @@ public with sharing class DragNDropController {
                     ];
             }
         } catch(QueryException e) {
-            throw new AuraException('There was an error trying to get the Content Version: ' + e.getMessage());
+            // Throw an AuraHandledException with custom data
+            CustomExceptionData data = new CustomExceptionData('There was an error trying to get the Content Version', e.getMessage());
+            throw new AuraHandledException(JSON.serialize(data));
         }
 
         return contentVersion;
@@ -74,7 +87,9 @@ public with sharing class DragNDropController {
                     insert newLink;
             }
         } catch (DmlException e) {
-            throw new AuraException('There was an error trying to create a Content Version: ' + e.getMessage());
+            // Throw an AuraHandledException with custom data
+            CustomExceptionData data = new CustomExceptionData('There was an error trying to create a Content Version', e.getMessage());
+            throw new AuraHandledException(JSON.serialize(data));
         }
 
     }
@@ -95,7 +110,9 @@ public with sharing class DragNDropController {
             delete cdl;
             delete cd;
         } catch (DmlException e) {
-            throw new AuraException('There was an error trying to delete Content Document: ' + e.getMessage());
+            // Throw an AuraHandledException with custom data
+            CustomExceptionData data = new CustomExceptionData('There was an error trying to delete Content Document', e.getMessage());
+            throw new AuraHandledException(JSON.serialize(data));
         }
     }
 }

@@ -12,6 +12,11 @@
                 component.set("v.image", '/sfc/servlet.shepherd/version/download/'+image.Id);
                 component.set("v.renderNew", true);
             }
+            var response = a.getState();
+            if (response == "ERROR") {
+                let errorData = JSON.parse(error.message);
+                error(errorData.name + errorData.message);
+            }
             
         });
         $A.enqueueAction(action); 

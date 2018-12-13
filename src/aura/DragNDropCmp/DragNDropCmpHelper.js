@@ -24,6 +24,11 @@
         });
         action.setCallback(this, function(a) {
             component.set("v.renderDelete", true);
+            var response = a.getState();
+            if (response == "ERROR") {
+                let errorData = JSON.parse(error.message);
+                error(errorData.name + errorData.message);
+            }
         });
         $A.enqueueAction(action); 
     },
@@ -36,6 +41,11 @@
         action.setCallback(this, function(a) {
             component.set("v.renderDelete", false);
             component.set("v.image", "https://i.imgur.com/1RM15yn.jpg");
+            var response = a.getState();
+            if (response == "ERROR") {
+                let errorData = JSON.parse(error.message);
+                error(errorData.name + errorData.message);
+            }
         });
         $A.enqueueAction(action); 
     }
