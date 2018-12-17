@@ -94,11 +94,11 @@ private class TestDragNDropController {
             'error'
             );
 
-        String errorMessage = 'Unable to Access Page';
-        ContentVersion contentVersionInsert;
+        String errorMessage = 'Script-thrown exception';
         Test.startTest();
         try {
-            contentVersionInsert = DragNDropController.getProfilePicture('hola');
+            ContentVersion contentVersionInsert;
+            contentVersionInsert = DragNDropController.getProfilePicture(null);
         } catch(AuraHandledException e) {
             getException.message = e.getMessage();
         }
@@ -142,28 +142,5 @@ private class TestDragNDropController {
                 ];
 
         System.assert(cdl.size() == 0);
-    }
-
-    /**
-     * Test ContentDocument deletion, DML Exception.
-     */
-    @isTest (seeAllData=true) static void testDeleteTheFileException() {
-        
-        DragNDropController.CustomExceptionData getException = new DragNDropController.CustomExceptionData(
-            'error',
-            'There was an error trying to create a Content Version'
-            );
-
-        String errorMessage = 'Unable to Access Page';
-
-        Test.startTest();
-        try {
-            DragNDropController.deleteTheFile('hola');
-        } catch(AuraHandledException e) {
-            getException.message = e.getMessage();
-        }
-        Test.stopTest();
-
-        System.assertEquals(errorMessage, getException.message);
     }
 }

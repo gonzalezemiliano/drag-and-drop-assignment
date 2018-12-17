@@ -5,7 +5,7 @@
  * @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
  * @since 2018-12
  */
-public class DragNDropController {
+public with sharing class DragNDropController {
 
     // Wrapper class for my custom exception data
     public class CustomExceptionData {
@@ -24,7 +24,7 @@ public class DragNDropController {
      * @param parentId The record ID.
      */
     @AuraEnabled
-    public static ContentVersion getProfilePicture(String parentId) {
+    public static ContentVersion getProfilePicture(Id parentId) {
         ContentVersion contentVersion;
 
         try {
@@ -123,10 +123,8 @@ public class DragNDropController {
      * @param parentId The record ID.
      */
     @AuraEnabled
-    public static void deleteTheFile(String parentId) {
-        
+    public static void deleteTheFile(String parentId) {   
         try {
-
             List<ContentDocumentLink> cdl = [
                 SELECT Id, ContentDocumentId 
                 FROM ContentDocumentLink 
@@ -134,10 +132,17 @@ public class DragNDropController {
                 ];
 
             List<ContentDocument> cd = [SELECT Id FROM ContentDocument WHERE Id =:cdl[0].ContentDocumentId];
-        
+            
             delete cd;
-        } catch (DmlException e) {
+        } catch (QueryException e) {
+            // Throw an AuraHandledException with custom data
+            CustomExceptionData data = new CustomExceptionData(
+                'There was an error trying to get the Content Document', 
+                e.getMessage()
+                );
 
+            throw new AuraHandledException(JSON.serialize(data));
+        } catch (DmlException e) {
             // Throw an AuraHandledException with custom data
             CustomExceptionData data = new CustomExceptionData(
                 'There was an error trying to delete Content Document', 
