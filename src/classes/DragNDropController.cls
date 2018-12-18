@@ -22,6 +22,7 @@ public with sharing class DragNDropController {
      * Checks whether is a ContentDocumentId linked with parentId and gets a Content Version record.
      *
      * @param parentId The record ID.
+     * @return ContentVersion object record with blob image inside VersionData attribute
      */
     @AuraEnabled
     public static ContentVersion getProfilePicture(Id parentId) {
