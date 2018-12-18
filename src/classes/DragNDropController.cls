@@ -73,11 +73,11 @@ public with sharing class DragNDropController {
         try {
 
             List<ContentDocumentLink> cdl = [
-            SELECT Id, ContentDocumentId 
-            FROM ContentDocumentLink 
-            WHERE LinkedEntityId = :parentId
-            LIMIT 1
-            ];
+                SELECT Id, ContentDocumentId 
+                FROM ContentDocumentLink 
+                WHERE LinkedEntityId = :parentId
+                LIMIT 1
+                ];
         
             if (!cdl.isEmpty()) {
                 contentDocumentId=cdl.get(0).contentDocumentId;
@@ -125,6 +125,7 @@ public with sharing class DragNDropController {
     @AuraEnabled
     public static void deleteTheFile(String parentId) {   
         try {
+            
             List<ContentDocumentLink> cdl = [
                 SELECT Id, ContentDocumentId 
                 FROM ContentDocumentLink 
