@@ -12,7 +12,7 @@
     min-height: 100px;
     max-height: 200px;
     max-width: 300px;
-	width: auto;
+    width: auto;
     height: auto;
     border-radius: 4px;
 }
@@ -20,6 +20,7 @@
 .THIS .wk_warning {
     background : #FFB75D !important;
 }
+
 .THIS .wk_success {
     background : #04844B !important;
 }

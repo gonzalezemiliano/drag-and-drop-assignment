@@ -22,15 +22,16 @@
             base64Data: base64Data, 
             contentType: file.type
         });
-        action.setCallback(this, function(a) {
-            component.set("v.renderDelete", true);
-            var response = a.getState();
-            if (response == "ERROR") {
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state == "SUCCESS") {
+                component.set("v.renderDelete", true);
+            } else if (state == "ERROR") {
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                      title: 'Error',
                      type: 'error',
-                     message: action.getError()[0]
+                     message: response.getError()[0]
                 });
                 toastEvent.fire();
             }
@@ -43,16 +44,18 @@
         action.setParams({
             parentId: component.get("v.recordId"),
         });
-        action.setCallback(this, function(a) {
-            component.set("v.renderDelete", false);
-            component.set("v.image", "https://i.imgur.com/1RM15yn.jpg");
-            var response = a.getState();
-            if (response == "ERROR") {
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state == "SUCCESS") {
+                component.set("v.renderDelete", false);
+                component.set("v.image", "https://i.imgur.com/1RM15yn.jpg");
+            }
+            if (state == "ERROR") {
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                      title: 'Error',
                      type: 'error',
-                     message: action.getError()[0]
+                     message: response.getError()[0]
                 });
                 toastEvent.fire();
             }

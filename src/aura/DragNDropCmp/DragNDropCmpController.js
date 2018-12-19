@@ -5,20 +5,20 @@
         action.setParams({
             parentId: component.get("v.recordId"),
         });
-        action.setCallback(this, function(a) {
-            var image = a.getReturnValue();
-            console.log(image);
-            if (image != null && image.Id != null) {
-                component.set("v.image", '/sfc/servlet.shepherd/version/download/'+image.Id);
-                component.set("v.renderDelete", true);
-            }
-            var response = a.getState();
-            if (response == "ERROR") {
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state == "SUCCESS") {
+                var image = response.getReturnValue();
+                if (image != null && image.Id != null) {
+                    component.set("v.image", '/sfc/servlet.shepherd/version/download/' + image.Id);
+                    component.set("v.renderDelete", true);
+                }
+            } else if (state == "ERROR") {
                 var toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                      title: 'Error',
                      type: 'error',
-                     message: action.getError()[0]
+                     message: response.getError()[0]
                 });
                 toastEvent.fire();
             }   
@@ -31,12 +31,11 @@
     },
 
     onDrop: function(component, event, helper) {
-
         event.stopPropagation();
         event.preventDefault();
         event.dataTransfer.dropEffect = 'copy';
         var files = event.dataTransfer.files;
-        if (files.length>1) {
+        if (files.length > 1) {
             return alert("You can only upload one profile picture");
         }
         helper.readFile(component, helper, files[0]);
