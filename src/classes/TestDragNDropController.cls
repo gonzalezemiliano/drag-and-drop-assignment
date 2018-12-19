@@ -1,5 +1,4 @@
 /**
- * TestDragNDropController.
  * Test DML operations for each method of the Apex class.
  *
  * @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
@@ -7,32 +6,32 @@
  */
 @isTest
 private class TestDragNDropController {
-    
+
     /**
      * Test upload a file, positive case.
      */
-    @isTest static void testSaveTheFile() {
+    @isTest static void testSaveFile() {
         String parentId =  'a011U000004LcCvQAK';
         String fileName = 'example.jpg';
         String base64Data = 'Hello World';
         String contentType = 'image/jpeg';
         Test.startTest();
-        DragNDropController.saveTheFile(parentId, fileName, base64Data, contentType);
+        DragNDropController.saveFile(parentId, fileName, base64Data, contentType);
         Test.stopTest();
 
         List<ContentDocumentLink> cdl = [
                 SELECT Id, ContentDocumentId
                 FROM ContentDocumentLink
-                WHERE LinkedEntityId = :parentId 
+                WHERE LinkedEntityId = :parentId
                 ];
 
-        System.assert(cdl.size()>0);
+        System.assert(cdl.size() > 0);
     }
 
     /**
      * Test upload a file, dml exception.
      */
-    @isTest static void testSaveTheFileException() {
+    @isTest static void testSaveFileException() {
         DragNDropController.CustomExceptionData saveException = new DragNDropController.CustomExceptionData(
             'error',
             'There was an error trying to create a Content Version'
@@ -42,7 +41,7 @@ private class TestDragNDropController {
 
         Test.startTest();
         try {
-            DragNDropController.saveTheFile('a015U000004LcCvQAK', 'example.jpg', 'Hello World', 'image/jpeg');
+            DragNDropController.saveFile('a015U000004LcCvQAK', 'example.jpg', 'Hello World', 'image/jpeg');
         } catch (AuraHandledException e) {
             saveException.message = e.getMessage();
         }
@@ -66,8 +65,8 @@ private class TestDragNDropController {
         ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
 
         contentDocumentInsert.ContentDocumentId = [
-            SELECT Id, ContentDocumentId 
-            FROM ContentVersion 
+            SELECT Id, ContentDocumentId
+            FROM ContentVersion
             WHERE Id =: contentVersionInsert.Id
             ].ContentDocumentId;
 
@@ -95,7 +94,7 @@ private class TestDragNDropController {
         try {
             ContentVersion contentVersionInsert;
             contentVersionInsert = DragNDropController.getProfilePicture(null);
-        } catch(AuraHandledException e) {
+        } catch (AuraHandledException e) {
             getException.message = e.getMessage();
         }
         Test.stopTest();
@@ -106,7 +105,7 @@ private class TestDragNDropController {
     /**
      * Test ContentDocument deletion, positive case.
      */
-    @isTest static void testDeleteTheFile() {
+    @isTest static void testDeleteFile() {
         String parentId =  'a011U000004LcCvQAK';
         ContentVersion contentVersionInsert = new ContentVersion();
         contentVersionInsert.ContentDocumentId = null;
@@ -118,8 +117,8 @@ private class TestDragNDropController {
         ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
 
         contentDocumentInsert.ContentDocumentId = [
-            SELECT Id, ContentDocumentId 
-            FROM ContentVersion 
+            SELECT Id, ContentDocumentId
+            FROM ContentVersion
             WHERE Id =: contentVersionInsert.Id
             ].ContentDocumentId;
 
@@ -128,13 +127,13 @@ private class TestDragNDropController {
         insert contentDocumentInsert;
 
         Test.startTest();
-        DragNDropController.deleteTheFile(parentId);
+        DragNDropController.deleteFile(parentId);
         Test.stopTest();
 
         List<ContentDocumentLink> cdl = [
                 SELECT Id, ContentDocumentId
                 FROM ContentDocumentLink
-                WHERE LinkedEntityId = :parentId 
+                WHERE LinkedEntityId = :parentId
                 ];
 
         System.assert(cdl.size() == 0);

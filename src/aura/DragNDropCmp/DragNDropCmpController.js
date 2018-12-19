@@ -1,20 +1,20 @@
 ({
     // Load current profile picture.
     onInit: function(component) {
-        var action = component.get("c.getProfilePicture");
+        let action = component.get("c.getProfilePicture");
         action.setParams({
             parentId: component.get("v.recordId"),
         });
         action.setCallback(this, function(response) {
-            var state = response.getState();
+            let state = response.getState();
             if (state == "SUCCESS") {
-                var image = response.getReturnValue();
+                let image = response.getReturnValue();
                 if (image != null && image.Id != null) {
                     component.set("v.image", '/sfc/servlet.shepherd/version/download/' + image.Id);
                     component.set("v.renderDelete", true);
                 }
             } else if (state == "ERROR") {
-                var toastEvent = $A.get("e.force:showToast");
+                let toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                      title: 'Error',
                      type: 'error',
@@ -34,7 +34,7 @@
         event.stopPropagation();
         event.preventDefault();
         event.dataTransfer.dropEffect = 'copy';
-        var files = event.dataTransfer.files;
+        let files = event.dataTransfer.files;
         if (files.length > 1) {
             return alert("You can only upload one profile picture");
         }
