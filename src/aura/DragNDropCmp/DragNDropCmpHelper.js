@@ -7,7 +7,6 @@
         var reader = new FileReader();
         reader.onloadend = function() {
             var dataURL = reader.result;
-            console.log(dataURL);
             component.set("v.image", dataURL);
             helper.upload(component, file, dataURL.match(/,(.*)$/)[1]);
         };
