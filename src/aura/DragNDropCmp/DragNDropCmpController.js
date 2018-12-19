@@ -10,14 +10,18 @@
             console.log(image);
             if (image != null && image.Id != null) {
                 component.set("v.image", '/sfc/servlet.shepherd/version/download/'+image.Id);
-                component.set("v.renderNew", true);
+                component.set("v.renderDelete", true);
             }
             var response = a.getState();
             if (response == "ERROR") {
-                let errorData = JSON.parse(error.message);
-                error(errorData.name + errorData.message);
-            }
-            
+                var toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                     title: 'Error',
+                     type: 'error',
+                     message: action.getError()[0]
+                });
+                toastEvent.fire();
+            }   
         });
         $A.enqueueAction(action); 
     },

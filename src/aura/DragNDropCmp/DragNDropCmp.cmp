@@ -9,18 +9,17 @@
 
     <!-- Boolean that makes delete button invisible -->
     <aura:attribute name='renderDelete' type='Boolean' default='false'/>
-    
+
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
         
- 
     <lightning:layout >
 	    <div ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
             <img src="{!v.image}"/>
 
-    		<lightning:layoutItem class="slds-grid_vertical-align-center" padding="horizontal-medium" >
+    		<lightning:layoutItem class="slds-grid_vertical-align-center" padding="horizontal-medium">
             	<aura:if isTrue="{!v.renderDelete}">
-                	<lightning:button variant="destructive" label="Delete" onclick="{!c.deletePicture}" 
-                		aura:id="myButton"/>
+                	<lightning:button variant="destructive" label="Delete" 
+                        onclick="{!c.deletePicture}"/>
               	</aura:if>
         	</lightning:layoutItem> 
 

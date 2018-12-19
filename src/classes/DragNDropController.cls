@@ -1,13 +1,13 @@
 /**
- * DragNDropController
- * Performs DML operations to upload, show and delete images inside the Component Document 
+ * DragNDropController.
+ * Performs DML operations to upload, show and delete images inside the Component Document.
  *
  * @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
  * @since 2018-12
  */
 public with sharing class DragNDropController {
 
-    // Wrapper class for my custom exception data
+    // Wrapper class for my custom exception data.
     public class CustomExceptionData {
         public String name;
         public String message;
@@ -22,7 +22,6 @@ public with sharing class DragNDropController {
      * Checks whether is a ContentDocumentId linked with parentId and gets a Content Version record.
      *
      * @param parentId The record ID.
-     * @return ContentVersion object record with blob image inside VersionData attribute
      */
     @AuraEnabled
     public static ContentVersion getProfilePicture(Id parentId) {
@@ -47,7 +46,7 @@ public with sharing class DragNDropController {
             }
         } catch(QueryException e) {
             
-            // Throw an AuraHandledException with custom data
+            // Throw an AuraHandledException with custom data.
             CustomExceptionData data = new CustomExceptionData(
                 'There was an error trying to get the Content Version', 
                 e.getMessage()
@@ -74,11 +73,11 @@ public with sharing class DragNDropController {
         try {
 
             List<ContentDocumentLink> cdl = [
-                SELECT Id, ContentDocumentId 
-                FROM ContentDocumentLink 
-                WHERE LinkedEntityId = :parentId
-                LIMIT 1
-                ];
+            SELECT Id, ContentDocumentId 
+            FROM ContentDocumentLink 
+            WHERE LinkedEntityId = :parentId
+            LIMIT 1
+            ];
         
             if (!cdl.isEmpty()) {
                 contentDocumentId=cdl.get(0).contentDocumentId;
@@ -107,7 +106,7 @@ public with sharing class DragNDropController {
             }
         } catch (DmlException e) {
 
-            // Throw an AuraHandledException with custom data
+            // Throw an AuraHandledException with custom data.
             CustomExceptionData data = new CustomExceptionData(
                 'There was an error trying to create a Content Version', 
                 e.getMessage()
@@ -126,7 +125,6 @@ public with sharing class DragNDropController {
     @AuraEnabled
     public static void deleteTheFile(String parentId) {   
         try {
-            
             List<ContentDocumentLink> cdl = [
                 SELECT Id, ContentDocumentId 
                 FROM ContentDocumentLink 
@@ -137,7 +135,7 @@ public with sharing class DragNDropController {
             
             delete cd;
         } catch (QueryException e) {
-            // Throw an AuraHandledException with custom data
+            // Throw an AuraHandledException with custom data.
             CustomExceptionData data = new CustomExceptionData(
                 'There was an error trying to get the Content Document', 
                 e.getMessage()
@@ -145,7 +143,7 @@ public with sharing class DragNDropController {
 
             throw new AuraHandledException(JSON.serialize(data));
         } catch (DmlException e) {
-            // Throw an AuraHandledException with custom data
+            // Throw an AuraHandledException with custom data.
             CustomExceptionData data = new CustomExceptionData(
                 'There was an error trying to delete Content Document', 
                 e.getMessage()

@@ -26,8 +26,13 @@
             component.set("v.renderDelete", true);
             var response = a.getState();
             if (response == "ERROR") {
-                let errorData = JSON.parse(error.message);
-                error(errorData.name + errorData.message);
+                var toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                     title: 'Error',
+                     type: 'error',
+                     message: action.getError()[0]
+                });
+                toastEvent.fire();
             }
         });
         $A.enqueueAction(action); 
@@ -43,8 +48,13 @@
             component.set("v.image", "https://i.imgur.com/1RM15yn.jpg");
             var response = a.getState();
             if (response == "ERROR") {
-                let errorData = JSON.parse(error.message);
-                error(errorData.name + errorData.message);
+                var toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                     title: 'Error',
+                     type: 'error',
+                     message: action.getError()[0]
+                });
+                toastEvent.fire();
             }
         });
         $A.enqueueAction(action); 

@@ -1,6 +1,6 @@
 /**
- * TestDragNDropController
- * Test DML operations for each method of the Apex class
+ * TestDragNDropController.
+ * Test DML operations for each method of the Apex class.
  *
  * @author Emiliano Gonzalez <emiliano.gonzalez@modelit.xyz>
  * @since 2018-12
@@ -57,7 +57,6 @@ private class TestDragNDropController {
      */
     @isTest static void testGetProfilePicture() {
         
-        // Test SELECT
         String parentId =  'a011U000004LcCvQAK';
         ContentVersion contentVersionInsert = new ContentVersion();
         contentVersionInsert.ContentDocumentId = null;
