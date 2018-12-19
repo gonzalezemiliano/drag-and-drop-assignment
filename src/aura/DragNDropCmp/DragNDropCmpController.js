@@ -1,7 +1,7 @@
-({  
-    // Load current profile picture
+({
+    // Load current profile picture.
     onInit: function(component) {
-        var action = component.get("c.getProfilePicture"); 
+        var action = component.get("c.getProfilePicture");
         action.setParams({
             parentId: component.get("v.recordId"),
         });
@@ -23,9 +23,9 @@
                 toastEvent.fire();
             }   
         });
-        $A.enqueueAction(action); 
+        $A.enqueueAction(action);
     },
-    
+
     onDragOver: function(component, event) {
         event.preventDefault();
     },
@@ -38,11 +38,11 @@
         if (files.length > 1) {
             return alert("You can only upload one profile picture");
         }
-        helper.readFile(component, helper, files[0]);
+        helper.readFile(component, files[0]);
     },
 
     deletePicture: function(component, event, helper) {
         helper.delete(component);
     }
-    
+
 })
