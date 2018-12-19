@@ -33,7 +33,6 @@ private class TestDragNDropController {
      * Test upload a file, dml exception.
      */
     @isTest static void testSaveTheFileException() {
-        
         DragNDropController.CustomExceptionData saveException = new DragNDropController.CustomExceptionData(
             'error',
             'There was an error trying to create a Content Version'
@@ -44,7 +43,7 @@ private class TestDragNDropController {
         Test.startTest();
         try {
             DragNDropController.saveTheFile('a015U000004LcCvQAK', 'example.jpg', 'Hello World', 'image/jpeg');
-        } catch(AuraHandledException e) {
+        } catch (AuraHandledException e) {
             saveException.message = e.getMessage();
         }
         Test.stopTest();
@@ -56,7 +55,6 @@ private class TestDragNDropController {
      * Test file associated with ContentDocumentId from Content Version, positive case.
      */
     @isTest static void testGetProfilePicture() {
-        
         String parentId =  'a011U000004LcCvQAK';
         ContentVersion contentVersionInsert = new ContentVersion();
         contentVersionInsert.ContentDocumentId = null;
@@ -87,7 +85,6 @@ private class TestDragNDropController {
      * Test file associated with ContentDocumentId from Content Version, QueryException.
      */
     @isTest static void testGetProfilePictureException() {
-        
         DragNDropController.CustomExceptionData getException = new DragNDropController.CustomExceptionData(
             'error',
             'error'

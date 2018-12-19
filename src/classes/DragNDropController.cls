@@ -22,6 +22,7 @@ public with sharing class DragNDropController {
      * Checks whether is a ContentDocumentId linked with parentId and gets a Content Version record.
      *
      * @param parentId The record ID.
+     * @return ContentVersion object record with blob image inside VersionData record
      */
     @AuraEnabled
     public static ContentVersion getProfilePicture(Id parentId) {
@@ -44,14 +45,12 @@ public with sharing class DragNDropController {
                     WHERE ContentDocumentId = :contentDocumentId AND IsLatest = true
                     ];
             }
-        } catch(QueryException e) {
-            
+        } catch (QueryException e) {
             // Throw an AuraHandledException with custom data.
             CustomExceptionData data = new CustomExceptionData(
                 'There was an error trying to get the Content Version', 
                 e.getMessage()
                 );
-
             throw new AuraHandledException(JSON.serialize(data));
         }
 
@@ -68,19 +67,18 @@ public with sharing class DragNDropController {
      */
     @AuraEnabled
     public static void saveTheFile(Id parentId, String fileName, String base64Data, String contentType) { 
-        Id contentDocumentId = null;
+        Id contentDocumentId;
 
         try {
-
             List<ContentDocumentLink> cdl = [
-            SELECT Id, ContentDocumentId 
-            FROM ContentDocumentLink 
-            WHERE LinkedEntityId = :parentId
-            LIMIT 1
-            ];
+                SELECT Id, ContentDocumentId 
+                FROM ContentDocumentLink 
+                WHERE LinkedEntityId = :parentId
+                LIMIT 1
+                ];
         
             if (!cdl.isEmpty()) {
-                contentDocumentId=cdl.get(0).contentDocumentId;
+                contentDocumentId = cdl.get(0).contentDocumentId;
             }
 
             ContentVersion cv = new ContentVersion();
@@ -105,7 +103,6 @@ public with sharing class DragNDropController {
                 insert newLink;
             }
         } catch (DmlException e) {
-
             // Throw an AuraHandledException with custom data.
             CustomExceptionData data = new CustomExceptionData(
                 'There was an error trying to create a Content Version', 
@@ -131,9 +128,10 @@ public with sharing class DragNDropController {
                 WHERE LinkedEntityId = :parentId
                 ];
 
-            List<ContentDocument> cd = [SELECT Id FROM ContentDocument WHERE Id =:cdl[0].ContentDocumentId];
-            
-            delete cd;
+            if (!cdl.isEmpty()) {   
+                List<ContentDocument> cd = [SELECT Id FROM ContentDocument WHERE Id =:cdl[0].ContentDocumentId];
+                delete cd;
+            }
         } catch (QueryException e) {
             // Throw an AuraHandledException with custom data.
             CustomExceptionData data = new CustomExceptionData(
