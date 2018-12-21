@@ -7,13 +7,15 @@
             default="https://i.imgur.com/1RM15yn.jpg"/>
     <!-- Boolean that makes delete button invisible -->
     <aura:attribute name='renderDelete' type='Boolean' default='false'/>
-    <aura:attribute name="message" type="String" default=""/>
+    <aura:attribute name="message" type="String" default="Drop an image"/>
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
 
     <lightning:layout>
-        <div ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
+        <div class="slds-card" ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
             <img src="{!v.image}"/>
-            <p>{!v.message}</p>
+            <p font-family="Roboto">
+                <b>{!v.message}</b>
+            </p>
 
             <lightning:layoutItem class="slds-grid_vertical-align-center" padding="horizontal-medium">
                 <aura:if isTrue="{!v.renderDelete}">
