@@ -13,6 +13,7 @@
 
                 if (image != null && image.Id != null) {
                     component.set("v.image", '/sfc/servlet.shepherd/version/download/' + image.Id);
+                    component.set("v.message", "");
                     component.set("v.renderDelete", true);
                 }
 
