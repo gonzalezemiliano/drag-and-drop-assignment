@@ -2,17 +2,15 @@
                 implements="flexipage:availableForAllPageTypes,force:hasRecordId">
 
     <aura:attribute name="recordId" type="Id"/>
-
     <!-- Default image for dropper -->
     <aura:attribute name="image" type="String"
             default="https://i.imgur.com/1RM15yn.jpg"/>
-
     <!-- Boolean that makes delete button invisible -->
     <aura:attribute name='renderDelete' type='Boolean' default='false'/>
     <aura:attribute name="message" type="String" default=""/>
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
 
-    <lightning:layout >
+    <lightning:layout>
         <div ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
             <img src="{!v.image}"/>
             <p>{!v.message}</p>
