@@ -1,9 +1,12 @@
 ({
     readFile: function(component, file) {
+
         if (!file) return;
+
         if (!file.type.match(/(image.*)/)) {
             return alert('Image file not supported');
         }
+
         let self = this;
         let reader = new FileReader();
         reader.onloadend = function() {
@@ -24,6 +27,7 @@
         });
         action.setCallback(this, function(response) {
             let state = response.getState();
+
             if (state == "SUCCESS") {
                 component.set("v.renderDelete", true);
                 component.set("v.message", "Image uploaded");
@@ -48,11 +52,13 @@
         });
         action.setCallback(this, function(response) {
             let state = response.getState();
+
             if (state == "SUCCESS") {
                 component.set("v.renderDelete", false);
                 component.set("v.image", "https://i.imgur.com/1RM15yn.jpg");
                 component.set("v.message", "Image deleted");
             }
+
             if (state == "ERROR") {
                 let toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
@@ -62,6 +68,7 @@
                 });
                 toastEvent.fire();
             }
+
         });
         $A.enqueueAction(action);
     }

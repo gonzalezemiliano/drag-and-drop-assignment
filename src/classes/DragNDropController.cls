@@ -108,6 +108,8 @@ public with sharing class DragNDropController {
                 'There was an error trying to get Content Document Link', 
                 e.getMessage()
                 );
+
+            throw new AuraHandledException(JSON.serialize(data));
         } catch (DmlException e) {
             Database.rollback(sp);
             // Throw an AuraHandledException with custom data.
@@ -118,7 +120,6 @@ public with sharing class DragNDropController {
 
             throw new AuraHandledException(JSON.serialize(data));
         }
-
     }
 
     /**

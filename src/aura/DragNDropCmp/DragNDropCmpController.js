@@ -7,12 +7,15 @@
         });
         action.setCallback(this, function(response) {
             let state = response.getState();
+
             if (state == "SUCCESS") {
                 let image = response.getReturnValue();
+
                 if (image != null && image.Id != null) {
                     component.set("v.image", '/sfc/servlet.shepherd/version/download/' + image.Id);
                     component.set("v.renderDelete", true);
                 }
+
             } else if (state == "ERROR") {
                 let toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
@@ -21,7 +24,7 @@
                      message: response.getError()[0]
                 });
                 toastEvent.fire();
-            }   
+            }
         });
         $A.enqueueAction(action);
     },
@@ -35,9 +38,11 @@
         event.preventDefault();
         event.dataTransfer.dropEffect = 'copy';
         let files = event.dataTransfer.files;
+
         if (files.length > 1) {
             return alert("You can only upload one profile picture");
         }
+
         helper.readFile(component, files[0]);
     },
 
