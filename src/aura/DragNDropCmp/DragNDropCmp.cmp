@@ -13,7 +13,7 @@
     <lightning:layout>
         <div class="slds-card" ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
             <img src="{!v.image}"/>
-            <p font-family="Roboto">
+            <p>
                 <b>{!v.message}</b>
             </p>
 
