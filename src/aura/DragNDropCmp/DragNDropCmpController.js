@@ -16,7 +16,6 @@
                     component.set("v.message", "");
                     component.set("v.renderDelete", true);
                 }
-
             } else if (state == "ERROR") {
                 let toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({

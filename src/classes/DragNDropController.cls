@@ -103,6 +103,7 @@ public with sharing class DragNDropController {
                 insert newLink;
             }
         } catch (QueryException e) {
+            Database.rollback(sp);
             // Throw an AuraHandledException with custom data.
             CustomExceptionData data = new CustomExceptionData(
                 'There was an error trying to get Content Document Link', 
