@@ -31,11 +31,12 @@
                 component.set("v.renderDelete", true);
                 component.set("v.message", "Image uploaded");
             } else if (state == "ERROR") {
+                let errors = response.getError();
                 let toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                      title: 'Error',
                      type: 'error',
-                     message: response.getError()[0]
+                     message: errors[0].message
                 });
                 toastEvent.fire();
             }
@@ -59,11 +60,12 @@
             }
 
             if (state == "ERROR") {
+                let errors = response.getError();
                 let toastEvent = $A.get("e.force:showToast");
                 toastEvent.setParams({
                      title: 'Error',
                      type: 'error',
-                     message: response.getError()[0]
+                     message: errors[0].message
                 });
                 toastEvent.fire();
             }
