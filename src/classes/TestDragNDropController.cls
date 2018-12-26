@@ -54,24 +54,9 @@ private class TestDragNDropController {
      */
     @isTest static void testGetProfilePicture() {
         String parentId = [SELECT Id FROM Contact WHERE LastName = 'Test'].Id;
-        ContentVersion contentVersionInsert = new ContentVersion();
-        contentVersionInsert.ContentDocumentId = null;
-        contentVersionInsert.VersionData = EncodingUtil.base64Decode('Test');
-        contentVersionInsert.Title = 'Test';
-        contentVersionInsert.PathOnClient = 'Test.jpg';
-        insert contentVersionInsert;
-
-        ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
-
-        contentDocumentInsert.ContentDocumentId = [
-            SELECT Id, ContentDocumentId
-            FROM ContentVersion
-            WHERE Id =: contentVersionInsert.Id
-            ].ContentDocumentId;
-
-        contentDocumentInsert.LinkedEntityId = parentId;
-        contentDocumentInsert.ShareType = 'V';
-        insert contentDocumentInsert;
+        ContentVersion contentVersionInsert;
+        Id contentDocumentId = TestDataFactory.createTestContentVersion();
+        TestDataFactory.createTestContentLink(parentId, contentDocumentId);
 
         Test.startTest();
         contentVersionInsert = DragNDropController.getProfilePicture(parentId);
@@ -85,6 +70,7 @@ private class TestDragNDropController {
      */
     @isTest static void testGetProfilePictureException() {
         String errorMessage;
+
         Test.startTest();
         try {
             ContentVersion contentVersionInsert;
@@ -102,24 +88,8 @@ private class TestDragNDropController {
      */
     @isTest static void testDeleteFile() {
         String parentId = [SELECT Id FROM Contact WHERE LastName = 'Test'].Id;
-        ContentVersion contentVersionInsert = new ContentVersion();
-        contentVersionInsert.ContentDocumentId = null;
-        contentVersionInsert.VersionData = EncodingUtil.base64Decode('Test');
-        contentVersionInsert.Title = 'Test';
-        contentVersionInsert.PathOnClient = 'Test.jpg';
-        insert contentVersionInsert;
-
-        ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
-
-        contentDocumentInsert.ContentDocumentId = [
-            SELECT Id, ContentDocumentId
-            FROM ContentVersion
-            WHERE Id =: contentVersionInsert.Id
-            ].ContentDocumentId;
-
-        contentDocumentInsert.LinkedEntityId = parentId;
-        contentDocumentInsert.ShareType = 'V';
-        insert contentDocumentInsert;
+        Id contentDocumentId = TestDataFactory.createTestContentVersion();
+        TestDataFactory.createTestContentLink(parentId, contentDocumentId);
 
         Test.startTest();
         DragNDropController.deleteFile(parentId);
