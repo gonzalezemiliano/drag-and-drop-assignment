@@ -17,14 +17,7 @@
                     component.set("v.renderDelete", true);
                 }
             } else if (state == "ERROR") {
-                let errors = response.getError();
-                let toastEvent = $A.get("e.force:showToast");
-                toastEvent.setParams({
-                     title: 'Error',
-                     type: 'error',
-                     message: errors[0].message
-                });
-                toastEvent.fire();
+                helper.errorToast(response.getError()[0].message);
             }
         });
         $A.enqueueAction(action);

@@ -31,14 +31,7 @@
                 component.set("v.renderDelete", true);
                 component.set("v.message", "Image uploaded");
             } else if (state == "ERROR") {
-                let errors = response.getError();
-                let toastEvent = $A.get("e.force:showToast");
-                toastEvent.setParams({
-                     title: 'Error',
-                     type: 'error',
-                     message: errors[0].message
-                });
-                toastEvent.fire();
+                this.errorToast(response.getError()[0].message);
             }
         });
         component.set("v.message", "Uploading...");
@@ -60,18 +53,21 @@
             }
 
             if (state == "ERROR") {
-                let errors = response.getError();
-                let toastEvent = $A.get("e.force:showToast");
-                toastEvent.setParams({
-                     title: 'Error',
-                     type: 'error',
-                     message: errors[0].message
-                });
-                toastEvent.fire();
+                this.errorToast(response.getError()[0].message);
             }
 
         });
         $A.enqueueAction(action);
+    },
+
+    errorToast: function(message){
+        let toastEvent = $A.get("e.force:showToast");
+        toastEvent.setParams({
+            title: 'Error',
+            type: 'error',
+            message: message
+            });
+        toastEvent.fire();
     }
 
 })
