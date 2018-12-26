@@ -10,7 +10,7 @@ public class TestDataFactory {
     /**
      * Create common test Content Version records.
      */
-    public static Id createTestContentVersion() {
+    public static Id createContentVersion() {
         ContentVersion contentVersionInsert = new ContentVersion();
         contentVersionInsert.ContentDocumentId = null;
         contentVersionInsert.VersionData = EncodingUtil.base64Decode('Test');
@@ -23,7 +23,7 @@ public class TestDataFactory {
     /**
      * Create common test Content Document Link records.
      */
-    public static void createTestContentLink(Id parentId, Id contentDocumentId) {
+    public static void createContentLink(Id parentId, Id contentDocumentId) {
         ContentDocumentLink contentDocumentInsert = new ContentDocumentLink();
 
         contentDocumentInsert.ContentDocumentId = [

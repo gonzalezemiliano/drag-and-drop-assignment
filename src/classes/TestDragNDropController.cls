@@ -55,14 +55,14 @@ private class TestDragNDropController {
     @isTest static void testGetProfilePicture() {
         String parentId = [SELECT Id FROM Contact WHERE LastName = 'Test'].Id;
         ContentVersion contentVersionInsert;
-        Id contentDocumentId = TestDataFactory.createTestContentVersion();
-        TestDataFactory.createTestContentLink(parentId, contentDocumentId);
+        Id contentDocumentId = TestDataFactory.createContentVersion();
+        TestDataFactory.createContentLink(parentId, contentDocumentId);
 
         Test.startTest();
         contentVersionInsert = DragNDropController.getProfilePicture(parentId);
         Test.stopTest();
 
-        System.assertEquals(true, contentVersionInsert.IsLatest, 'Image found');
+        System.assertEquals(contentVersionInsert.IsLatest, true, 'Image found');
     }
 
     /**
@@ -73,8 +73,7 @@ private class TestDragNDropController {
 
         Test.startTest();
         try {
-            ContentVersion contentVersionInsert;
-            contentVersionInsert = DragNDropController.getProfilePicture(null);
+            ContentVersion contentVersionInsert = DragNDropController.getProfilePicture(null);
         } catch (AuraHandledException e) {
             errorMessage = e.getMessage();
         }
@@ -88,8 +87,8 @@ private class TestDragNDropController {
      */
     @isTest static void testDeleteFile() {
         String parentId = [SELECT Id FROM Contact WHERE LastName = 'Test'].Id;
-        Id contentDocumentId = TestDataFactory.createTestContentVersion();
-        TestDataFactory.createTestContentLink(parentId, contentDocumentId);
+        Id contentDocumentId = TestDataFactory.createContentVersion();
+        TestDataFactory.createContentLink(parentId, contentDocumentId);
 
         Test.startTest();
         DragNDropController.deleteFile(parentId);
