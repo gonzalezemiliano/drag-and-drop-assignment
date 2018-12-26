@@ -50,9 +50,7 @@
                 component.set("v.renderDelete", false);
                 component.set("v.image", "https://i.imgur.com/1RM15yn.jpg");
                 component.set("v.message", "Image deleted");
-            }
-
-            if (state == "ERROR") {
+            } else if (state == "ERROR") {
                 this.errorToast(response.getError()[0].message);
             }
 
