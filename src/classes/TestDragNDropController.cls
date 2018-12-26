@@ -11,7 +11,9 @@ private class TestDragNDropController {
      * Test upload a file, positive case.
      */
     @isTest static void testSaveFile() {
-        String parentId =  'a011U000004LcCvQAK';
+        Contact testContact = new Contact(LastName = 'hola');
+        insert testContact;
+        String parentId =  testContact.Id;
         String fileName = 'example.jpg';
         String base64Data = 'Hello World';
         String contentType = 'image/jpeg';
@@ -34,14 +36,13 @@ private class TestDragNDropController {
     @isTest static void testSaveFileException() {
         DragNDropController.CustomExceptionData saveException = new DragNDropController.CustomExceptionData(
             'error',
-            'There was an error trying to create a Content Version'
+            'error'
             );
 
         String errorMessage = 'Script-thrown exception';
-
         Test.startTest();
         try {
-            DragNDropController.saveFile('a015U000004LcCvQAK', 'example.jpg', 'Hello World', 'image/jpeg');
+            DragNDropController.saveFile('0032U0000025ifGQAQ', 'example.jpg', 'Hello World', 'image/jpeg');
         } catch (AuraHandledException e) {
             saveException.message = e.getMessage();
         }
@@ -54,7 +55,9 @@ private class TestDragNDropController {
      * Test file associated with ContentDocumentId from Content Version, positive case.
      */
     @isTest static void testGetProfilePicture() {
-        String parentId =  'a011U000004LcCvQAK';
+        Contact testContact = new Contact(LastName = 'hola');
+        insert testContact;
+        String parentId =  testContact.Id;
         ContentVersion contentVersionInsert = new ContentVersion();
         contentVersionInsert.ContentDocumentId = null;
         contentVersionInsert.VersionData = EncodingUtil.base64Decode('Test');
@@ -107,7 +110,9 @@ private class TestDragNDropController {
      * Test ContentDocument deletion, positive case.
      */
     @isTest static void testDeleteFile() {
-        String parentId =  'a011U000004LcCvQAK';
+        Contact testContact = new Contact(LastName = 'hola');
+        insert testContact;
+        String parentId =  testContact.Id;
         ContentVersion contentVersionInsert = new ContentVersion();
         contentVersionInsert.ContentDocumentId = null;
         contentVersionInsert.VersionData = EncodingUtil.base64Decode('Test');
