@@ -11,19 +11,16 @@ private class TestDragNDropController {
      * Create common test contacts.
      */
     @testSetup static void setup() {
-        Contact testContact = new Contact(LastName = 'Test');
-        insert testContact;
+        insert new Contact(LastName = 'Test');
     }
     /**
      * Test upload a file, positive case.
      */
     @isTest static void testSaveFile() {
         String parentId = [SELECT Id FROM Contact WHERE LastName = 'Test'].Id;
-        String fileName = 'example.jpg';
-        String base64Data = 'Hello World';
-        String contentType = 'image/jpeg';
+
         Test.startTest();
-        DragNDropController.saveFile(parentId, fileName, base64Data, contentType);
+        DragNDropController.saveFile(parentId, 'example.jpg', 'Hello World', 'image/jpeg');
         Test.stopTest();
 
         List<ContentDocumentLink> cdl = [
@@ -40,6 +37,7 @@ private class TestDragNDropController {
      */
     @isTest static void testSaveFileException() {
         String errorMessage;
+
         Test.startTest();
         try {
             DragNDropController.saveFile('0032U0000025ifGQAQ', 'example.jpg', 'Hello World', 'image/jpeg');
@@ -48,7 +46,7 @@ private class TestDragNDropController {
         }
         Test.stopTest();
 
-        System.assertEquals(errorMessage, 'Script-thrown exception');
+        System.assertEquals('Script-thrown exception', errorMessage);
     }
 
     /**
@@ -79,7 +77,7 @@ private class TestDragNDropController {
         contentVersionInsert = DragNDropController.getProfilePicture(parentId);
         Test.stopTest();
 
-        System.assertEquals(true, contentVersionInsert.IsLatest, 'Image found');
+        System.assertEquals(contentVersionInsert.IsLatest, true, 'Image found');
     }
 
     /**
@@ -96,7 +94,7 @@ private class TestDragNDropController {
         }
         Test.stopTest();
 
-        System.assertEquals(errorMessage, 'Script-thrown exception');
+        System.assertEquals('Script-thrown exception', errorMessage);
     }
 
     /**
