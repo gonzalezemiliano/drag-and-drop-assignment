@@ -8,12 +8,17 @@
 private class TestDragNDropController {
 
     /**
+     * Create common test contacts.
+     */
+    @testSetup static void setup() {
+        Contact testContact = new Contact(LastName = 'Test');
+        insert testContact;
+    }
+    /**
      * Test upload a file, positive case.
      */
     @isTest static void testSaveFile() {
-        Contact testContact = new Contact(LastName = 'hola');
-        insert testContact;
-        String parentId =  testContact.Id;
+        String parentId = [SELECT Id FROM Contact WHERE LastName = 'Test'].Id;
         String fileName = 'example.jpg';
         String base64Data = 'Hello World';
         String contentType = 'image/jpeg';
@@ -34,30 +39,23 @@ private class TestDragNDropController {
      * Test upload a file, dml exception.
      */
     @isTest static void testSaveFileException() {
-        DragNDropController.CustomExceptionData saveException = new DragNDropController.CustomExceptionData(
-            'error',
-            'error'
-            );
-
-        String errorMessage = 'Script-thrown exception';
+        String errorMessage;
         Test.startTest();
         try {
             DragNDropController.saveFile('0032U0000025ifGQAQ', 'example.jpg', 'Hello World', 'image/jpeg');
         } catch (AuraHandledException e) {
-            saveException.message = e.getMessage();
+            errorMessage = e.getMessage();
         }
         Test.stopTest();
 
-        System.assertEquals(errorMessage, saveException.message);
+        System.assertEquals(errorMessage, 'Script-thrown exception');
     }
 
     /**
      * Test file associated with ContentDocumentId from Content Version, positive case.
      */
     @isTest static void testGetProfilePicture() {
-        Contact testContact = new Contact(LastName = 'hola');
-        insert testContact;
-        String parentId =  testContact.Id;
+        String parentId = [SELECT Id FROM Contact WHERE LastName = 'Test'].Id;
         ContentVersion contentVersionInsert = new ContentVersion();
         contentVersionInsert.ContentDocumentId = null;
         contentVersionInsert.VersionData = EncodingUtil.base64Decode('Test');
@@ -88,31 +86,24 @@ private class TestDragNDropController {
      * Test file associated with ContentDocumentId from Content Version, QueryException.
      */
     @isTest static void testGetProfilePictureException() {
-        DragNDropController.CustomExceptionData getException = new DragNDropController.CustomExceptionData(
-            'error',
-            'error'
-            );
-
-        String errorMessage = 'Script-thrown exception';
+        String errorMessage;
         Test.startTest();
         try {
             ContentVersion contentVersionInsert;
             contentVersionInsert = DragNDropController.getProfilePicture(null);
         } catch (AuraHandledException e) {
-            getException.message = e.getMessage();
+            errorMessage = e.getMessage();
         }
         Test.stopTest();
 
-        System.assertEquals(errorMessage, getException.message);
+        System.assertEquals(errorMessage, 'Script-thrown exception');
     }
 
     /**
      * Test ContentDocument deletion, positive case.
      */
     @isTest static void testDeleteFile() {
-        Contact testContact = new Contact(LastName = 'hola');
-        insert testContact;
-        String parentId =  testContact.Id;
+        String parentId = [SELECT Id FROM Contact WHERE LastName = 'Test'].Id;
         ContentVersion contentVersionInsert = new ContentVersion();
         contentVersionInsert.ContentDocumentId = null;
         contentVersionInsert.VersionData = EncodingUtil.base64Decode('Test');
