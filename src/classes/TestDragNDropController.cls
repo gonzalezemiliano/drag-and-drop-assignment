@@ -77,7 +77,7 @@ private class TestDragNDropController {
         contentVersionInsert = DragNDropController.getProfilePicture(parentId);
         Test.stopTest();
 
-        System.assertEquals(contentVersionInsert.IsLatest, true, 'Image found');
+        System.assertEquals(true, contentVersionInsert.IsLatest, 'Image found');
     }
 
     /**
@@ -85,6 +85,7 @@ private class TestDragNDropController {
      */
     @isTest static void testGetProfilePictureException() {
         String errorMessage;
+
         Test.startTest();
         try {
             ContentVersion contentVersionInsert;
