@@ -1,0 +1,30 @@
+<aura:component controller="DragNDropController"
+                implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+
+    <aura:attribute name="recordId" type="Id"/>
+    <!-- Default image for dropper -->
+    <aura:attribute name="image" type="String"
+            default="https://i.imgur.com/1RM15yn.jpg"/>
+    <!-- Boolean that makes delete button invisible -->
+    <aura:attribute name='renderDelete' type='Boolean' default='false'/>
+    <aura:attribute name="message" type="String" default="Drop an image"/>
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
+    <lightning:layout>
+        <div class="slds-card" ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
+            <img src="{!v.image}"/>
+            <p>
+                <b>{!v.message}</b>
+            </p>
+
+            <lightning:layoutItem class="slds-grid_vertical-align-center" padding="horizontal-medium">
+                <aura:if isTrue="{!v.renderDelete}">
+                    <lightning:button variant="destructive" label="Delete"
+                        onclick="{!c.deletePicture}"/>
+                </aura:if>
+            </lightning:layoutItem>
+
+        </div>
+    </lightning:layout>
+
+</aura:component>
